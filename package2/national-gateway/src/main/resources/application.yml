@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: NATIONAL-GATEWAY
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+#      routes:
+#        - id: auth-service
+#          uri: lb://AUTH-SERVICE
+#          predicates:
+#            - Path=/auth/**
+#          filters:
+#            - RewritePath=/auth/(?<segment>.*),/api/$\{segment} 
+#        - id: inter-op-layer-communicator
+#          uri: lb://INTER-OP-LAYER-COMMUNICATOR
+#          predicates:
+#            - Path=/gateway/**
+#          filters:
+#             - RewritePath=/gateway/(?<segment>.*),/api/$\{segment} 
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: W@nder@2022            
+openPaths : /auth/login,/events/eventData,/api/login,
+eureka:
+  client: 
+    registerWithEureka: false 
+server:
+  port: 8081
+#  ssl:
+#    enabled: true
+#    key-alias: ahipoc
+#    key-store-password: ahipoc@123456
+#    key-store: classpath:ahipoc-keystore.p12
+#    key-store-type: PKCS12
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE

@@ -1,0 +1,65 @@
+version: "3.3"
+
+services:
+  farmer-registry:
+    image: openjdk:11
+    container_name: "farmer-registry"
+    ports:
+      - 10001:10001
+    volumes:
+      - "../package4/FarmerRegistry/target/farmer-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/farmerregistry -Dspring.datasource.username=${POSTGRES_USER} -Dspring.datasource.password=${POSTGRES_PASSWORD} -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  social-registry:
+    image: openjdk:11
+    container_name: "social-registry"
+    ports:
+      - 10002:10002
+    volumes:
+      - "../package4/SocialRegistry/target/social-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/socialregistry -Ddbuser=${POSTGRES_USER} -Ddbpassword=${POSTGRES_PASSWORD} -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  beneficiary-registry:
+    image: openjdk:11
+    container_name: "beneficiary-registry"
+    ports:
+      - 10003:10003
+    volumes:
+      - "../package4/beneficiary-registry/target/beneficiary-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/beneficiaryregistry -Dspring.datasource.username=${POSTGRES_USER} -Dspring.datasource.password=${POSTGRES_PASSWORD} -jar app.jar"   
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  disability-registry:
+    image: openjdk:11
+    container_name: "disability-registry"
+    ports:
+      - 10004:10004
+    volumes:
+      - "../package4/DisabilityRegistry/target/disability-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/disabilityregistry -Dspring.datasource.username=${POSTGRES_USER} -Dspring.datasource.password=${POSTGRES_PASSWORD} -jar app.jar"   
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  crvs-registry:
+    image: openjdk:11
+    container_name: "crvs-registry"
+    ports:
+      - 10005:10005
+    volumes:
+      - "../package4/crvs-registry/target/crvs-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/crvs -Dspring.datasource.username=${POSTGRES_USER} -Dspring.datasource.password=${POSTGRES_PASSWORD} -jar app.jar"   
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+networks:
+  dockernetwork:
+    name: dockernetwork
+    driver: bridge    
+#url=jdbc:postgresql://localhost:5432/farmerregistry
+#dbuser=postgres
+#dbpassword=IMISuserP@s

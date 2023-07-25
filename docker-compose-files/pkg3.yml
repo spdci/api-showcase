@@ -1,0 +1,139 @@
+version: "3.3"
+
+services:
+#  connector-crvs:
+#    image: openjdk:11
+#    container_name: "connector-crvs"
+#    ports:
+#      - 7101:7101
+#    volumes:
+#      - "../package3/connector-crvs/target/connector-crvs-0.0.1.jar:/usr/java_app/app.jar"
+#    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -jar app.jar"
+#    working_dir: /usr/java_app
+#    networks:
+#      - dockernetwork
+  connector-data-systems:
+    image: openjdk:11
+    container_name: "connector-data-systems"
+    ports:
+      - 7102:7102
+    volumes:
+      - "../package3/connector-data-systems/target/connector-data-systems-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -DPG_HOST=postgres -Ddbuser=postgres -Ddbpassword=W@nder@2022 -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-disability-registry:
+    image: openjdk:11
+    container_name: "connector-disability-registry"
+    ports:
+      - 7103:7103
+    volumes:
+      - "../package3/connector-disability-registry/target/connector-disability-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -Dregistry.endpoint=http://disability-registry:10004/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-farmer-registry:
+    image: openjdk:11
+    container_name: "connector-farmer-registry"
+    ports:
+      - 7104:7104
+    volumes:
+      - "../package3/connector-farmer-registry/target/connector-farmer-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -Dregistry.endpoint=http://farmer-registry:10001/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-mosip:
+    image: openjdk:11
+    container_name: "connector-mosip"
+    ports:
+      - 7105:7105    
+    volumes:
+      - "../package3/connector-mosip/target/connector-mosip-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-payment:
+    image: openjdk:11
+    container_name: "connector-payment"
+    ports:
+      - 7106:7106
+    volumes:
+      - "../package3/connector-payment/target/connector-payment-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-social-registry:
+    image: openjdk:11
+    container_name: "connector-social-registry"
+    ports:
+      - 7107:7107
+    volumes:
+      - "../package3/connector-social-registry/target/connector-social-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dregistry.endpoint=http://social-registry:10002/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-beneficiary-registry:
+    image: openjdk:11
+    container_name: "connector-beneficiary-registry"
+    ports:
+      - 7108:7108
+    volumes:
+      - "../package3/connector-beneficiary-registry/target/connector-beneficiary-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dregistry.endpoint=http://beneficiary-registry:10003/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork 
+  connector-crvs-registry:
+    image: openjdk:11
+    container_name: "connector-crvs-registry"
+    ports:
+      - 7109:7109
+    volumes:
+      - "../package3/connector-crvs-registry/target/connector-crvs-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dregistry.endpoint=http://crvs-registry:10005/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork 
+  connector-opencrvs:
+    image: openjdk:11
+    container_name: "connector-opencrvs"
+    ports:
+      - 7170:7170
+    volumes:
+      - "../package3/connector-opencrvs/target/connector-opencrvs-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork    
+#  connector-student-registry:
+#    image: openjdk:11
+#    container_name: "connector-student-registry"
+#    ports:
+#      - 7108:7108
+#    volumes:
+#      - "../package3/connector-student-registry/target/connector-student-registry-0.0.1.jar:/usr/java_app/app.jar"
+#    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -jar app.jar"
+#    working_dir: /usr/java_app
+#    networks:
+#      - dockernetwork
+#  connector-university-registry:
+#    image: openjdk:11
+#    container_name: "connector-university-registry"
+#    ports:
+#      - 7109:7108
+#    volumes:
+#      - "../package3/connector-university-registry/target/connector-university-registry-0.0.1.jar:/usr/java_app/app.jar"
+#    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -jar app.jar"
+#    working_dir: /usr/java_app
+#    networks:
+#      - dockernetwork
+networks:
+  dockernetwork:
+    name: dockernetwork
+    driver: bridge    

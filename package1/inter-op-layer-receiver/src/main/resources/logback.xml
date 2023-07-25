@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="15 seconds">
+	<springProperty name="appName"
+		source="spring.application.name" />
+	<appender name="Console"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%yellow(%d{ISO8601}) %yellow(%-5level) [%yellow(%t)] %yellow(%C{1.}): %msg%n%throwable
+			</Pattern>
+		</layout>
+	</appender>
+	<appender name="elk"
+		class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<destination>localhost:50000</destination>
+
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+			<customFields>{"appname":"${appName}"}</customFields>
+		</encoder>
+	</appender>
+	<root level="info">
+		<appender-ref ref="Console" />
+		<appender-ref ref="elk" />
+	</root>
+</configuration>

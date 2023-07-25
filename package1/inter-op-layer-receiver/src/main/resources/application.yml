@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: inter-op-layer-receiver
+  jackson:
+    default-property-inclusion: non-null 
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+server:
+  port: 8080
+spmis:
+  national-gateway: http://localhost:8081
+  token-server: http://localhost:8079/api/sblToken
+  client:
+    id: spmis
+    secret: X507568jw6ZTTDQvdiJZFHXQvL6ZSseA

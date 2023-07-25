@@ -1,0 +1,45 @@
+version: "3.3"
+
+services:
+  serviceregistry:
+    image: openjdk:11
+    container_name: "serviceregistry"
+    ports:
+      - 8761:8761
+    volumes:
+      - "../package2/service-registry/target/service-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  national-gateway:
+    image: openjdk:11
+    container_name: "national-gateway"
+    ports:
+      - 8081:8081
+    depends_on:
+      - serviceregistry
+    volumes:
+      - "../package2/national-gateway/target/national-gateway-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dspring.r2dbc.url=r2dbc:postgresql://postgres:5432/postgres -Dspring.r2dbc.username=${POSTGRES_USER} -Dspring.r2dbc.password=${POSTGRES_PASSWORD} -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  auth-service:
+    image: openjdk:11
+    container_name: "auth-service"
+    ports:
+      - 8079:8079
+    volumes:
+      - "../package2/auth-service/target/auth-service-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dkeycloak.endpoint=http://keycloak:8080 -jar app.jar"
+    depends_on:
+      - serviceregistry
+      - national-gateway
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+networks:
+  dockernetwork:
+    name: dockernetwork
+    driver: bridge    

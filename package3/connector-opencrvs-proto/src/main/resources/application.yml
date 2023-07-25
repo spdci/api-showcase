@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: connector-opencrvs
+  jackson:
+    default-property-inclusion: non-null
+server:
+  port: 7170
+crvs:
+  endpoint: http://43.205.77.129:5001/fhir
