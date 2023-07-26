@@ -7,18 +7,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriBuilder;
 
-import com.ahi.proto.response.SearchResponse;
-import com.ahi.sbl.pojo.AhiInternalServerError;
 import com.ahi.sbl.pojo.Credential;
 import com.google.gson.JsonObject;
 
@@ -49,7 +44,7 @@ public class NationalGatewayConnectorService {
 
 	public Mono<String> processPostRequest(String requestBody, Map<String, String> headersFromSpmis, String path) {
 
-		Mono<String> bodyToMono = webClientBuilder.baseUrl(nationalGateway).build()//
+		Mono<String> payload = webClientBuilder.baseUrl(nationalGateway).build()//
 				.post()//
 				.uri(path)//
 				.headers(headers -> {
@@ -61,69 +56,26 @@ public class NationalGatewayConnectorService {
 					headers.add("Authorization", "Bearer " + getTokenWithSecrets());
 				}).bodyValue(requestBody)//
 				.retrieve()//
-				.onStatus(HttpStatus::is5xxServerError, response -> {
-					log.info("500 : Error while searching data");
-					return handleErrors(response);
-				}).onStatus(HttpStatus::is4xxClientError, response -> {
-					return handleErrors(response);
-				}).bodyToMono(String.class).doFinally(t -> {
-					log.info("Request served : {}",requestBody);
+				.bodyToMono(String.class).doFinally(t -> {
+					log.info("Request served : {}", requestBody);
 				});
-		return bodyToMono;
+		return payload;
 
 	}
 
-	public Mono<String> processGetRequest(Map<String, String> headersFromSpmis, Map<String, String> pathVariables,
-			String path) {
-
-		Mono<String> bodyToMono = webClientBuilder.baseUrl(nationalGateway).build()//
-				.get()//
-				.uri(builder -> {
-					UriBuilder uri = builder.path(path);
-					if (!CollectionUtils.isEmpty(pathVariables)) {
-						// for (Entry<String, String> entry : pathVariables.entrySet()) {
-						// uri.replaceQueryParam(entry.getKey(), entry.getValue());
-						// }
-					}
-					return uri.build();
-				}).headers(headers -> {
-					headersFromSpmis.forEach((key, value) -> {
-						if (!key.equalsIgnoreCase("Authorization")) {
-							headers.add(key, value);
-						}
-					});
-					headers.add("Authorization", "Bearer " + getTokenWithSecrets());
-				}).retrieve()//
-				.onStatus(HttpStatus::is5xxServerError, response -> {
-					log.info("500 : Error while searching data");
-					return handleErrors(response);
-
-				}).onStatus(HttpStatus::is4xxClientError, response -> {
-					return handleErrors(response);
-
-				}).bodyToMono(String.class).doFinally(t -> {
-					log.info("Finished GET request");
-				});
-
-		return bodyToMono;
-
-	}
-
-	private Mono<AhiInternalServerError> handleErrors(ClientResponse clientResponse) {
-		log.error("Status Code " + clientResponse.rawStatusCode() + " Message : ");
+	public Mono<String> handleErrors(ClientResponse clientResponse) {
+		log.error("Status Code " + clientResponse.statusCode() + " Message : ");
 		log.error("Error : 500 while connecting with service");
-		if (HttpStatus.valueOf(clientResponse.rawStatusCode()).is4xxClientError()) {
-			return Mono.just(new AhiInternalServerError("false",
-					HttpStatus.valueOf(clientResponse.rawStatusCode()).getReasonPhrase(),
-					String.valueOf(clientResponse.rawStatusCode())));
+		if (clientResponse.statusCode().is4xxClientError()) {
+			return Mono.just(org.spdci.errors.HttpStatus.builder().error_code("400")
+					.error_message(String.valueOf(clientResponse.statusCode())).build().toString());
+
 		}
 		Mono<String> errorResponse = clientResponse.bodyToMono(String.class);
 		return errorResponse.flatMap((message) -> {
 			log.error("Error : 500 while connecting with service");
-			return Mono.just(new AhiInternalServerError("false",
-					HttpStatus.valueOf(clientResponse.rawStatusCode()).getReasonPhrase(),
-					String.valueOf(clientResponse.rawStatusCode())));
-
+			return Mono.just(org.spdci.errors.HttpStatus.builder().error_code("500")
+					.error_message(String.valueOf(clientResponse.statusCode())).build().toString());
 		});
 
 	}
@@ -154,18 +106,17 @@ public class NationalGatewayConnectorService {
 					Credential.class);
 
 			String token = (String) response.getBody().getTokenInfo().get("access_token");
-			//System.out.println("Token " + token);
+			// System.out.println("Token " + token);
 			return token;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
 		}
 	}
 
-	Mono<SearchResponse> notFound = Mono.just(SearchResponse.newBuilder().setErrorCode("404")
-			.setReturnMessage("Not found - check headers starts with x-*").build());
+	Mono<org.spdci.errors.HttpStatus> unAuthError = Mono
+			.just(org.spdci.errors.HttpStatus.builder().error_code("401").error_message("Not authorized").build());
 
-	Mono<SearchResponse> unAuthError = Mono
-			.just(SearchResponse.newBuilder().setErrorCode("401").setReturnMessage("Not authorized").build());
+	Mono<org.spdci.errors.HttpStatus> notFound = Mono.just(org.spdci.errors.HttpStatus.builder().error_code("404")
+			.error_message("Not found - check headers starts with x-*").build());
 }

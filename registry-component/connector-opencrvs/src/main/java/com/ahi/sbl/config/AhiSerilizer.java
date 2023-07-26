@@ -96,8 +96,6 @@ public class AhiSerilizer extends Module {
 		serializers.addSerializer(new WrappedPrimitiveSerializer<>(BoolValue.class));
 		serializers.addSerializer(new WrappedPrimitiveSerializer<>(StringValue.class));
 		serializers.addSerializer(new WrappedPrimitiveSerializer<>(BytesValue.class));
-	//	serializers.addSerializer(new SearchResponseSerializer(SearchResponse.class));
-		serializers.addSerializer(new BirthInfoSerializer());
 
 		context.addSerializers(serializers);
 

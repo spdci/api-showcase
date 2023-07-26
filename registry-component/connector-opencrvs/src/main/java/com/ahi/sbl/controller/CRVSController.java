@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @Slf4j
-public class SearchController {
+public class CRVSController {
 
 	final String BAD_REQUEST = String.valueOf(HttpStatus.BAD_REQUEST.value());
 	final String INTERNAL_SERVER_ERROR = String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -39,6 +39,22 @@ public class SearchController {
 		return crvsSearchService.proActiveSearch(payload1);
 	}
 
-	
+	@PostMapping(value = "/subscribe", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<Payload> subscribe(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
+			throws Exception {
+		return null;
+	}
+
+	@PostMapping(value = "/unsubscribe", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<Payload> unsubscribe(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
+			throws Exception {
+		return null;
+	}
+
+	@PostMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<Payload> status(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
+			throws Exception {
+		return null;
+	}
 
 }

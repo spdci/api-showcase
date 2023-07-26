@@ -1,0 +1,210 @@
+version: "3.3"
+services:
+  sp-system:
+    image: openjdk:11
+    container_name: "inter-op-layer-receiver"
+    ports:
+      - 8080:8080
+    volumes:
+      - "../package1/inter-op-layer-receiver/target/inter-op-layer-receiver-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  serviceregistry:
+    image: openjdk:11
+    container_name: "serviceregistry"
+    ports:
+      - 8761:8761
+    volumes:
+      - "../package2/service-registry/target/service-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  national-gateway:
+    image: openjdk:11
+    container_name: "national-gateway"
+    ports:
+      - 8081:8081
+    depends_on:
+      - serviceregistry
+    volumes:
+      - "../package2/national-gateway/target/national-gateway-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dspring.r2dbc.url=r2dbc:postgresql://postgres:5432/postgres -Dspring.r2dbc.username=${POSTGRES_USER} -Dspring.r2dbc.password=${POSTGRES_PASSWORD} -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  auth-service:
+    image: openjdk:11
+    container_name: "auth-service"
+    ports:
+      - 8079:8079
+    volumes:
+      - "../package2/auth-service/target/auth-service-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dkeycloak.endpoint=http://keycloak:8080 -jar app.jar"
+    depends_on:
+      - serviceregistry
+      - national-gateway
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-data-systems:
+    image: openjdk:11
+    container_name: "connector-data-systems"
+    ports:
+      - 7102:7102
+    volumes:
+      - "../package3/connector-data-systems/target/connector-data-systems-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -DPG_HOST=postgres -Ddbuser=postgres -Ddbpassword=W@nder@2022 -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-disability-registry:
+    image: openjdk:11
+    container_name: "connector-disability-registry"
+    ports:
+      - 7103:7103
+    volumes:
+      - "../package3/connector-disability-registry/target/connector-disability-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -Dregistry.endpoint=http://disability-registry:10004/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-farmer-registry:
+    image: openjdk:11
+    container_name: "connector-farmer-registry"
+    ports:
+      - 7104:7104
+    volumes:
+      - "../package3/connector-farmer-registry/target/connector-farmer-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -Dregistry.endpoint=http://farmer-registry:10001/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-mosip:
+    image: openjdk:11
+    container_name: "connector-mosip"
+    ports:
+      - 7105:7105    
+    volumes:
+      - "../package3/connector-mosip/target/connector-mosip-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-payment:
+    image: openjdk:11
+    container_name: "connector-payment"
+    ports:
+      - 7106:7106
+    volumes:
+      - "../package3/connector-payment/target/connector-payment-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/  -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-social-registry:
+    image: openjdk:11
+    container_name: "connector-social-registry"
+    ports:
+      - 7107:7107
+    volumes:
+      - "../package3/connector-social-registry/target/connector-social-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dregistry.endpoint=http://social-registry:10002/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  connector-beneficiary-registry:
+    image: openjdk:11
+    container_name: "connector-beneficiary-registry"
+    ports:
+      - 7108:7108
+    volumes:
+      - "../package3/connector-beneficiary-registry/target/connector-beneficiary-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dregistry.endpoint=http://beneficiary-registry:10003/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork 
+  connector-crvs-registry:
+    image: openjdk:11
+    container_name: "connector-crvs-registry"
+    ports:
+      - 7109:7109
+    volumes:
+      - "../package3/connector-crvs-registry/target/connector-crvs-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -Dregistry.endpoint=http://crvs-registry:10005/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork 
+  connector-opencrvs:
+    image: openjdk:11
+    container_name: "connector-opencrvs"
+    ports:
+      - 7170:7170
+    volumes:
+      - "../package3/connector-opencrvs/target/connector-opencrvs-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork    
+  farmer-registry:
+    image: openjdk:11
+    container_name: "farmer-registry"
+    ports:
+      - 10001:10001
+    volumes:
+      - "../package4/FarmerRegistry/target/farmer-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/farmerregistry -Dspring.datasource.username=${POSTGRES_USER} -Dspring.datasource.password=${POSTGRES_PASSWORD} -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  social-registry:
+    image: openjdk:11
+    container_name: "social-registry"
+    ports:
+      - 10002:10002
+    volumes:
+      - "../package4/SocialRegistry/target/social-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/socialregistry -Ddbuser=${POSTGRES_USER} -Ddbpassword=${POSTGRES_PASSWORD} -jar app.jar"
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  beneficiary-registry:
+    image: openjdk:11
+    container_name: "beneficiary-registry"
+    ports:
+      - 10003:10003
+    volumes:
+      - "../package4/beneficiary-registry/target/beneficiary-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/beneficiaryregistry -Dspring.datasource.username=${POSTGRES_USER} -Dspring.datasource.password=${POSTGRES_PASSWORD} -jar app.jar"   
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  disability-registry:
+    image: openjdk:11
+    container_name: "disability-registry"
+    ports:
+      - 10004:10004
+    volumes:
+      - "../package4/DisabilityRegistry/target/disability-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/disabilityregistry -Dspring.datasource.username=${POSTGRES_USER} -Dspring.datasource.password=${POSTGRES_PASSWORD} -jar app.jar"   
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+  crvs-registry:
+    image: openjdk:11
+    container_name: "crvs-registry"
+    ports:
+      - 10005:10005
+    volumes:
+      - "../package4/crvs-registry/target/crvs-registry-0.0.1.jar:/usr/java_app/app.jar"
+    command: bash -c "java -Dspring.datasource.url=jdbc:postgresql://postgres:5432/crvs -Dspring.datasource.username=${POSTGRES_USER} -Dspring.datasource.password=${POSTGRES_PASSWORD} -jar app.jar"   
+    working_dir: /usr/java_app
+    networks:
+      - dockernetwork
+
+networks:
+  dockernetwork:
+    name: dockernetwork
+    driver: bridge    

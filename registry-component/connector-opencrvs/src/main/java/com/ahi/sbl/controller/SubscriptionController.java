@@ -1,3 +1,4 @@
+
 package com.ahi.sbl.controller;
 
 import java.util.Map;
@@ -19,7 +20,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @Slf4j
-public class SearchController {
+public class SubscriptionController {
 
 	final String BAD_REQUEST = String.valueOf(HttpStatus.BAD_REQUEST.value());
 	final String INTERNAL_SERVER_ERROR = String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -30,15 +31,16 @@ public class SearchController {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	@PostMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Mono<Payload> searchCRVSData(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
+	@PostMapping(value = "/subscribe", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<Payload> subscribe(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
 			throws Exception {
-		Payload payload1 = objectMapper.readValue(requestBody, Payload.class);
-		log.info("payload  1- ", payload1.getMessage().getSearchRequest().getData().get(0).getSearchCriteria()
-				.getQuery().getIdentifier().get(0).getIdentifierType());
-		return crvsSearchService.proActiveSearch(payload1);
+		return null;
 	}
 
-	
+	@PostMapping(value = "/unsubscribe", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<Payload> unsubscribe(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
+			throws Exception {
+		return null;
+	}
 
 }

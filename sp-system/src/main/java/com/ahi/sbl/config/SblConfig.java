@@ -47,8 +47,7 @@ public class SblConfig implements WebFluxConfigurer {
 	ObjectMapper objectMapper() {
 		ObjectMapper mapper = new ObjectMapper()//
 				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-				.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)//
-				.registerModule(new AhiSerilizer());
+				.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);;
 		;
 		mapper.findAndRegisterModules();
 		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
