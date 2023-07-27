@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ahi.common.Payload;
+import org.spdci.common.Payload;
 import com.ahi.sbl.services.CrvsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

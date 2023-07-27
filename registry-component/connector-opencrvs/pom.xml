@@ -98,8 +98,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>dci-common</groupId>
-			<artifactId>dci-common-classes</artifactId>
+			<groupId>org.spdci</groupId>
+			<artifactId>common-classes</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 

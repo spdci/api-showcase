@@ -2,7 +2,7 @@ package com.ahi.sbl.services;
 
 //import com.ahi.proto.request.SearchRequest;
 //import com.ahi.proto.response.SearchResponse;
-import com.ahi.common.Payload;
+import org.spdci.common.Payload;
 import reactor.core.publisher.Mono;
 
 public interface CrvsService {

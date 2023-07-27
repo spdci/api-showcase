@@ -16,17 +16,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
-import com.ahi.common.CRRecord;
-import com.ahi.common.HumanName;
-import com.ahi.common.Identifier;
-import com.ahi.common.Payload;
-import com.ahi.common.Sex;
-import com.ahi.enums.RequestStatus;
-import com.ahi.enums.SearchStatusReasonCode;
-import com.ahi.enums.SexDisplayText;
-import com.ahi.request.SearchCriteria;
-import com.ahi.response.SearchResponse;
-import com.ahi.response.SearchResponseObject;
+import org.spdci.common.CRRecord;
+import org.spdci.common.HumanName;
+import org.spdci.common.Identifier;
+import org.spdci.common.Payload;
+import org.spdci.common.Sex;
+import org.spdci.enums.RequestStatus;
+import org.spdci.enums.SearchStatusReasonCode;
+import org.spdci.enums.SexDisplayText;
+import org.spdci.request.SearchCriteria;
+import org.spdci.response.SearchResponse;
+import org.spdci.response.SearchResponseObject;
 import com.ahi.sbl.pojo.CrvsResponse;
 import com.ahi.sbl.pojo.CrvsToken;
 import com.ahi.sbl.pojo.RequestResponse;
@@ -101,7 +101,7 @@ public class CrvsServiceImpl implements CrvsService {
 		SearchCriteria searchCriteria = payload.getMessage().getSearchRequest().getData().get(0).getSearchCriteria();
 		if (searchCriteria.getQuery() != null) {
 			CRRecord registryRecord = searchCriteria.getQuery();
-			for (com.ahi.common.Identifier identifier : registryRecord.getIdentifier()) {
+			for (org.spdci.common.Identifier identifier : registryRecord.getIdentifier()) {
 				totalcount++;
 
 				if (identifier.getIdentifierType().equalsIgnoreCase("brn")) {
@@ -113,7 +113,7 @@ public class CrvsServiceImpl implements CrvsService {
 
 					CrvsResponse.CrvsData.SearchEvents.EventResult.Name childname = eventResult.getChildName().get(0);
 
-					com.ahi.common.Identifier identifierObj = new Identifier();
+					org.spdci.common.Identifier identifierObj = new Identifier();
 					identifierObj.setIdentifierType(eventResult.getType().equalsIgnoreCase("Birth") ? "brn" : "drn");
 					identifierObj.setIdentifierValue(eventResult.getRegistration().getRegistrationNumber());
 
@@ -121,14 +121,14 @@ public class CrvsServiceImpl implements CrvsService {
 					humanName.setGivenName(childname.getFirstNames());
 					humanName.setSurName(childname.getFamilyName());
 
-					com.ahi.common.Sex sex = new Sex();
+					org.spdci.common.Sex sex = new Sex();
 					sex.setDisplayText(eventResult.getChildGender().equalsIgnoreCase("male") ? SexDisplayText.Male
 							: eventResult.getChildGender().equalsIgnoreCase("female") ? SexDisplayText.Female
 									: SexDisplayText.Unknown);
 
 					CRRecord person = new CRRecord();
 
-					List<com.ahi.common.Identifier> identifiers = new ArrayList<>();
+					List<org.spdci.common.Identifier> identifiers = new ArrayList<>();
 					identifiers.add(identifierObj);
 					person.setIdentifier(identifiers);
 					person.setName(humanName);
@@ -141,7 +141,7 @@ public class CrvsServiceImpl implements CrvsService {
 
 		log.info(" payload. {} ", payload.getMessage().getSearchRequest().getData().get(0).getReferenceId());
 
-		SearchResponse searchResponse = new SearchResponse();
+//		SearchResponse searchResponse = new SearchResponse();
 
 		SearchResponseObject data = new SearchResponseObject();
 		data.setReferenceId(payload.getMessage().getSearchRequest().getData().get(0).getReferenceId());
@@ -158,9 +158,9 @@ public class CrvsServiceImpl implements CrvsService {
 
 		List<SearchResponseObject> datas = new ArrayList<>();
 		datas.add(data);
-		searchResponse.setData(datas);
+//		searchResponse.setData(datas);
 
-		payload.getMessage().setSearchResponse(searchResponse);
+//		payload.getMessage().setSearchResponse(searchResponse);
 		payload.getHeaders().setCompletedCount(totalcount);
 
 		payload.getMessage().getSearchResponse().getData().get(0).getPagination().setTotalRecord(totalcount);
