@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ahi.common.Payload;
+import org.spdci.common.Payload;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;

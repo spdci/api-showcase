@@ -3,7 +3,22 @@ spring:
     name: connector-opencrvs
   jackson:
     default-property-inclusion: non-null
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/open_crvs
+    username: postgres
+    password: W@nder@2022
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+
 server:
   port: 7170
 crvs:
   endpoint: http://43.205.77.129:5001/fhir
+
+logging:
+  level:
+    reactor:
+      netty: INFO
