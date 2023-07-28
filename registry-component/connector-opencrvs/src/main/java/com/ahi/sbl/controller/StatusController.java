@@ -3,6 +3,7 @@ package com.ahi.sbl.controller;
 
 import java.util.Map;
 
+import com.ahi.sbl.services.CrvsRequestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,9 +32,15 @@ public class StatusController {
 	@Autowired
 	ObjectMapper objectMapper;
 
+	@Autowired
+	CrvsRequestResponse crvsRequestResponse;
+
 	@PostMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Payload> status(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
 			throws Exception {
+		Payload payload = objectMapper.readValue(requestBody, Payload.class);
+		log.info("Payload-- ",payload.getMessage());
+		crvsRequestResponse.saveRequestData(payload);
 		return null;
 	}
 

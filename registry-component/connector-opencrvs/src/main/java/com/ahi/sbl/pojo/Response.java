@@ -18,5 +18,8 @@ public class Response {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String transactionId;
+    @Column(length = 5000)
     private String responsePayload;
+    private String errorCode;
+    private String errorMessage;
 }

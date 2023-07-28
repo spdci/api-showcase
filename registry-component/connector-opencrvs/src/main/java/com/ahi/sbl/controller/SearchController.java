@@ -2,6 +2,7 @@ package com.ahi.sbl.controller;
 
 import java.util.Map;
 
+import com.ahi.sbl.services.CrvsRequestResponse;
 import com.ahi.sbl.services.CrvsRequestResponseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class SearchController {
 	CrvsService crvsSearchService;
 
 	@Autowired
-	CrvsRequestResponseImpl crvsRequestResponse;
+	CrvsRequestResponse crvsRequestResponse;
 
 	@Autowired
 	ObjectMapper objectMapper;
@@ -42,7 +43,7 @@ public class SearchController {
 				.getQuery().getIdentifier().get(0).getIdentifierType());
 		Mono<Payload> payloadData = crvsSearchService.proActiveSearch(payload1);
 		crvsRequestResponse.saveRequestData(payload1);
-		crvsRequestResponse.saveResponseData(payload1);
+		crvsRequestResponse.saveResponseData(payloadData);
 		return payloadData;
 	}
 
