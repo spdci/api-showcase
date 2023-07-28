@@ -40,6 +40,7 @@ public class CrvsResponse {
                 private String groomIdentifier;
 
                 private List<Name> deceasedName;
+                private String deceasedGender;
                 private String dateOfDeath;
                 @Data
                 @NoArgsConstructor

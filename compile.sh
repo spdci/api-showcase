@@ -5,7 +5,7 @@ sp_system=$(pwd)/sp-system
 cd $dci_common_classes
 echo $(pwd)
 mvn clean install -DskipTests
-echo 'Building finished for dci-common-classes'
+echo 'Building finished for dci-common-classes  ---'
 
 cd $sp_system
 echo $(pwd)
