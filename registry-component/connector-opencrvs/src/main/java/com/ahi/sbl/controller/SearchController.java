@@ -2,6 +2,8 @@ package com.ahi.sbl.controller;
 
 import java.util.Map;
 
+import com.ahi.sbl.services.CrvsRequestResponse;
+import com.ahi.sbl.services.CrvsRequestResponseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +30,9 @@ public class SearchController {
 	CrvsService crvsSearchService;
 
 	@Autowired
+	CrvsRequestResponse crvsRequestResponse;
+
+	@Autowired
 	ObjectMapper objectMapper;
 
 	@PostMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,7 +41,10 @@ public class SearchController {
 		Payload payload1 = objectMapper.readValue(requestBody, Payload.class);
 		log.info("payload  1- ", payload1.getMessage().getSearchRequest().getData().get(0).getSearchCriteria()
 				.getQuery().getIdentifier().get(0).getIdentifierType());
-		return crvsSearchService.proActiveSearch(payload1);
+		Mono<Payload> payloadData = crvsSearchService.proActiveSearch(payload1);
+		crvsRequestResponse.saveRequestData(payload1);
+		crvsRequestResponse.saveResponseData(payloadData);
+		return payloadData;
 	}
 
 	

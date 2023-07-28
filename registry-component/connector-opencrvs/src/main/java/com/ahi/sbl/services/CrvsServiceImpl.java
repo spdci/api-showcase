@@ -100,7 +100,7 @@ public class CrvsServiceImpl implements CrvsService {
 		if ( searchCriteria!=null && searchCriteria.getQuery() != null) {
 
 			if ( payload.getMessage().getSearchRequest().getData().get(0).getEventType()!=null &&
-			payload.getMessage().getSearchRequest().getData().get(0).getEventType().equals(CREventType.BIRTH)) {
+					payload.getMessage().getSearchRequest().getData().get(0).getEventType().equals(CREventType.BIRTH)) {
 
 				CRRecord registryRecord = searchCriteria.getQuery();
 
@@ -233,9 +233,9 @@ public class CrvsServiceImpl implements CrvsService {
 		List<SearchResponseObject> datas = new ArrayList<>();
 		datas.add(data);
 
- 		searchResponse.setData(datas);
+		searchResponse.setData(datas);
 
- 		payload.getMessage().setSearchResponse(searchResponse);
+		payload.getMessage().setSearchResponse(searchResponse);
 
 		payload.getHeaders().setCompletedCount(totalcount);
 
@@ -257,7 +257,7 @@ public class CrvsServiceImpl implements CrvsService {
 
 		for (CrvsResponse.CrvsData.SearchEvents.EventResult.Name name : humananmes) {
 			if ("en".equals(name.getUse())) {
-				 humanName.setGivenName(name.getFirstNames());
+				humanName.setGivenName(name.getFirstNames());
 				humanName.setSurName(name.getFamilyName());
 				break;
 			}
@@ -276,7 +276,7 @@ public class CrvsServiceImpl implements CrvsService {
 
 		String Birthgraphqldata = "{\"query\":\"query searchEvents($advancedSearchParameters: AdvancedSearchParametersInput!, $sort: String, $count: Int, $skip: Int) {\\r\\n  searchEvents(\\r\\n    advancedSearchParameters: $advancedSearchParameters\\r\\n    sort: $sort\\r\\n    count: $count\\r\\n    skip: $skip\\r\\n  ) {\\r\\n    totalItems\\r\\n    results {\\r\\n      type\\r\\n      registration {\\r\\n        registrationNumber # BRN\\r\\n        eventLocationId # Place of birth\\r\\n        registeredLocationId\\r\\n        createdAt\\r\\n      }\\r\\n      ... on BirthEventSearchSet {\\r\\n        childGender # Sex\\r\\n        dateOfBirth # Date of birth\\r\\n        childName {\\r\\n          firstNames # First name (s)\\r\\n          familyName # Last name\\r\\n          use\\r\\n        }\\r\\n      }\\r\\n    }\\r\\n  }\\r\\n}\\r\\n\",\"variables\":{\n"
 				+ "    \"advancedSearchParameters\": {\n" + "        \"event\": \"birth\" \n";
-				//+ (brn != null && !brn.isEmpty() ? "  \"registrationNumber\": \"" + brn + "\"\n" : "") +
+		//+ (brn != null && !brn.isEmpty() ? "  \"registrationNumber\": \"" + brn + "\"\n" : "") +
 
 		for (org.spdci.common.Identifier identifier : identifiers) {
 
@@ -291,7 +291,7 @@ public class CrvsServiceImpl implements CrvsService {
 //						:
 //				(payload.getFirstname()!=null && !payload.getFirstname().isEmpty() ? "  \"name\": \""+payload.getFirstname()+" "+payload.getLastname()+"\",\n":"") +
 //				(payload.getBirthdate()!=null && !payload.getBirthdate().isEmpty() ? "   \"childDoB\": \""+payload.getBirthdate()+"\"\n":"")
-				// ) +
+		// ) +
 
 		Birthgraphqldata = Birthgraphqldata +"    },\n" + "    \"sort\":\"DESC\"\n" + "}\n" + "\n" + " }";
 		System.out.println("Birthgraphqldata :" + Birthgraphqldata);
@@ -354,8 +354,8 @@ public class CrvsServiceImpl implements CrvsService {
 		}
 
 		Marriagegraphqldata = Marriagegraphqldata+"       },\n" +
-						"    \"sort\":\"DESC\"\n" +
-						"} }";
+				"    \"sort\":\"DESC\"\n" +
+				"} }";
 		ResponseEntity<CrvsResponse> MarriageResponse = restTemplate.postForEntity(graphqlurl, new HttpEntity<>(Marriagegraphqldata, headersRegProc), CrvsResponse.class);
 
 		e.setMarriageData(MarriageResponse.getBody());
