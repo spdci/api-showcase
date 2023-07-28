@@ -18,7 +18,3 @@ server:
 crvs:
   endpoint: http://43.205.77.129:5001/fhir
 
-logging:
-  level:
-    reactor:
-      netty: INFO

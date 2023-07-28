@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "ed25040a-056d-45a5-936f-c96094a821f2",
+		"name": "0001_Sample_CRVS_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27352443"
+	},
+	"item": [
+		{
+			"name": "Birth_CRVS_API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"signature\": \"\",\n    \"headers\": {\n        \"version\": \"1.0.0\",\n        \"message_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n        \"message_ts\": \"2023-07-19T12:15:04.555Z\",\n        \"sender_id\": \"authorization\",\n        \"receiver_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n        \"action\": \"search\",\n        \"total_count\": \"10\",\n        \"encrypted\": false,\n        \"async\": false,\n        \"callback_endpoint\": \"\"\n    },\n    \"message\": { \n            \"transaction_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n            \"search_request\": {\n                \"version\": \"1.0.0\",\n                \"data\": [\n                    {\n                    \"reference_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n                    \"timestamp\": \"2023-07-19T12:15:04.555Z\",\n                    \"registry_type\": \"CIVIL\",\n                    \"event_type\": \"BIRTH\",\n                    \"search_criteria\": {\n\n                        \"query\": {\n                            \"identifier\": [\n                                {\n                                    \"identifier_type\": \"brn\",\n                                    \"identifier_value\": \"2023BOMLA1D\" \n                                }\n                            ]\n                        }\n                    },\n                    \"filter\": [\"\"],\n                    \"sort\": [\n                        {\n                            \"attribute_name\": \"id\",\n                            \"sort_order\": \"ASC\"\n                        }\n                    ],\n                    \"pagination\": {\n                        \"page_number\": 10,\n                        \"page_size\": 10\n                    },\n                    \"locale\": \"en\"\n                }]\n            }        \n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7170/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Death_CRVS_API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"signature\": \"\",\n    \"headers\": {\n        \"version\": \"1.0.0\",\n        \"message_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n        \"message_ts\": \"2023-07-19T12:15:04.555Z\",\n        \"sender_id\": \"authorization\",\n        \"receiver_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n        \"action\": \"search\",\n        \"total_count\": \"10\",\n        \"encrypted\": false,\n        \"async\": false,\n        \"callback_endpoint\": \"\"\n    },\n    \"message\": { \n            \"transaction_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n            \"search_request\": {\n                \"version\": \"1.0.0\",\n                \"data\": [\n                    {\n                    \"reference_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n                    \"timestamp\": \"2023-07-19T12:15:04.555Z\",\n                    \"registry_type\": \"CIVIL\",\n                    \"event_type\": \"DEATH\",\n                    \"search_criteria\": {\n\n                        \"query\": {\n                            \"identifier\": [\n                                {\n                                    \"identifier_type\": \"NATIONAL_ID\",\n                                    \"identifier_value\": \"3076375167\" \n                                }\n                            ]\n                        }\n                    },\n                    \"filter\": [\"\"],\n                    \"sort\": [\n                        {\n                            \"attribute_name\": \"id\",\n                            \"sort_order\": \"ASC\"\n                        }\n                    ],\n                    \"pagination\": {\n                        \"page_number\": 10,\n                        \"page_size\": 10\n                    },\n                    \"locale\": \"en\"\n                }]\n            }        \n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7170/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MARRIAGE_CRVS_API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"signature\": \"\",\n    \"headers\": {\n        \"version\": \"1.0.0\",\n        \"message_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n        \"message_ts\": \"2023-07-19T12:15:04.555Z\",\n        \"sender_id\": \"authorization\",\n        \"receiver_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n        \"action\": \"search\",\n        \"total_count\": \"10\",\n        \"encrypted\": false,\n        \"async\": false,\n        \"callback_endpoint\": \"\"\n    },\n    \"message\": { \n            \"transaction_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n            \"search_request\": {\n                \"version\": \"1.0.0\",\n                \"data\": [\n                    {\n                    \"reference_id\": \"0c96614c-7255-4774-b109-cd53ee851769\",\n                    \"timestamp\": \"2023-07-19T12:15:04.555Z\",\n                    \"registry_type\": \"CIVIL\",\n                    \"event_type\": \"MARRIAGE\",\n                    \"search_criteria\": {\n\n                        \"query\": {\n                            \"identifier\": [\n                                {\n                                    \"identifier_type\": \"NATIONAL_ID\",\n                                    \"identifier_value\": \"3076375167\" \n                                }\n                            ]\n                        }\n                    },\n                    \"filter\": [\"\"],\n                    \"sort\": [\n                        {\n                            \"attribute_name\": \"id\",\n                            \"sort_order\": \"ASC\"\n                        }\n                    ],\n                    \"pagination\": {\n                        \"page_number\": 10,\n                        \"page_size\": 10\n                    },\n                    \"locale\": \"en\"\n                }]\n            }        \n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7170/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

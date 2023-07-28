@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.util.List;
 @Getter
 @Setter
-@Builder
 @Data
 public class SearchResponse {
     private String version;
