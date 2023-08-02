@@ -1,5 +1,5 @@
-
 package org.spdci.controller;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,22 +20,22 @@ import java.util.Map;
 @Slf4j
 public class StatusController {
 
-	final String BAD_REQUEST = String.valueOf(HttpStatus.BAD_REQUEST.value());
-	final String INTERNAL_SERVER_ERROR = String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    final String BAD_REQUEST = String.valueOf(HttpStatus.BAD_REQUEST.value());
+    final String INTERNAL_SERVER_ERROR = String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
-	@Autowired
-	CrvsService crvsSearchService;
+    @Autowired
+    CrvsService crvsSearchService;
 
-	@Autowired
-	ObjectMapper objectMapper;
+    @Autowired
+    ObjectMapper objectMapper;
 
 
-	@PostMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Mono<Payload> status(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
-			throws Exception {
-		Payload payload = objectMapper.readValue(requestBody, Payload.class);
-		log.info("Payload-- ",payload.getMessage());
-		return null;
-	}
+    @PostMapping(value = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Payload> status(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
+            throws Exception {
+        Payload payload = objectMapper.readValue(requestBody, Payload.class);
+        log.info("Payload-- ", payload.getMessage());
+        return null;
+    }
 
 }
