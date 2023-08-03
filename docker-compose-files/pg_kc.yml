@@ -45,6 +45,14 @@ services:
     ports:
       - 9080:8080
       - 9443:8443
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12.2-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
 networks:
   dockernetwork:
     name: dockernetwork

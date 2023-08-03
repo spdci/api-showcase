@@ -6,6 +6,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.spdci.common.Payload;
+import org.spdci.pojo.ResponseWrapper;
+import org.spdci.response.AcknowledgementResponse;
 import org.spdci.services.CrvsRequestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,17 +29,24 @@ public class CRVSRequestResponseAspect {
     }
 
     @Around("controllerPointCut()  && args(headers, requestBody)")
-    public Mono<Payload> saveRequestDataAndProceed(ProceedingJoinPoint joinPoint,
-                                                   Map<String, String> headers,
-                                                   String requestBody) throws Throwable {
+    public Mono<ResponseWrapper> saveRequestDataAndProceed(ProceedingJoinPoint joinPoint,
+                                                           Map<String, String> headers,
+                                                           String requestBody) throws Throwable {
         Payload payload = objectMapper.readValue(requestBody, Payload.class);
         crvsRequestResponse.saveRequestData(payload);
+        Mono<ResponseWrapper> payloadData = (Mono<ResponseWrapper>) joinPoint.proceed();
 
-        Mono<Payload> payloadData = (Mono<Payload>) joinPoint.proceed();
-
-        crvsRequestResponse.saveResponseData(payloadData);
-
-        return payloadData;
+        if (payload.getHeaders().getAsync() == true) {
+            return Mono.just(new ResponseWrapper(AcknowledgementResponse.getAck()));
+        }
+        return payloadData.flatMap(resp -> {
+            try {
+                crvsRequestResponse.saveResponseData(Mono.just(resp.getPayload()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return Mono.just(resp);
+        });
     }
 
 

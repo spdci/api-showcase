@@ -13,6 +13,20 @@ spring:
     hibernate:
       ddl-auto: update
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+rabbitmq:
+  queue:
+    name: SearchRequestQueue
+  exchange:
+    name: SearchExc
+  routing:
+    key: search_req_key
+
 server:
   port: 7170
 crvs:

@@ -4,6 +4,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
@@ -37,6 +38,7 @@ public class PluginConfig {
 	ObjectMapper objectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.findAndRegisterModules();
+		mapper.registerModule(new JavaTimeModule());
 		mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		return mapper;
