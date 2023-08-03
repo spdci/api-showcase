@@ -1,6 +1,5 @@
 package org.spdci.config;
 
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.core.Version;
@@ -12,7 +11,6 @@ import com.google.protobuf.BoolValue;
 import com.google.protobuf.BytesValue;
 import com.google.protobuf.DoubleValue;
 import com.google.protobuf.Duration;
-import com.google.protobuf.ExtensionRegistry;
 import com.google.protobuf.FieldMask;
 import com.google.protobuf.FloatValue;
 import com.google.protobuf.Int32Value;
@@ -52,14 +50,6 @@ public class ResponseSerilizer extends Module {
 
 	public ResponseSerilizer() {
 		this(ProtobufJacksonConfig.builder().build());
-	}
-
-	/**
-	 * @deprecated use {@link # //ProtobufModule(ProtobufJacksonConfig)} instead
-	 */
-	@Deprecated
-	public ResponseSerilizer(ExtensionRegistry extensionRegistry) {
-		this(ProtobufJacksonConfig.builder().extensionRegistry(extensionRegistry).build());
 	}
 
 	public ResponseSerilizer(ProtobufJacksonConfig config) {

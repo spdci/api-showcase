@@ -19,6 +19,7 @@ import reactor.core.publisher.Mono;
 public class NotifyController {
 	@PostMapping(value = "/notify", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Payload> notify(@RequestHeader Map<String, String> headers, @RequestBody String requestBody) {
+		log.info("/notify received request");
 		return null;
 	}
 

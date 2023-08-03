@@ -17,7 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import reactor.netty.http.client.HttpClient;
@@ -50,7 +50,7 @@ public class SblConfig implements WebFluxConfigurer {
 				.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);;
 		;
 		mapper.findAndRegisterModules();
-		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+		mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 		return mapper;
 	}
 

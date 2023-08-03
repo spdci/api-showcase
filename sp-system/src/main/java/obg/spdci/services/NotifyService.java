@@ -1,5 +1,7 @@
 package obg.spdci.services;
 
-public interface NotifyService {
+import org.spdci.response.AcknowledgementResponse;
 
+public interface NotifyService {
+	public AcknowledgementResponse notify(String payload);
 }

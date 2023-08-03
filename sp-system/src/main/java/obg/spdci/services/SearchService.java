@@ -1,5 +1,7 @@
 package obg.spdci.services;
 
-public interface SearchService {
+import org.spdci.response.AcknowledgementResponse;
 
+public interface SearchService {
+	public AcknowledgementResponse onStatus(String payload);
 }

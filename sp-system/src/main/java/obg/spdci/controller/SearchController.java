@@ -30,6 +30,7 @@ public class SearchController {
 
 	@PostMapping(value = "/on-search", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Payload> searchCRVSData(@RequestHeader Map<String, String> headers, @RequestBody String requestBody) {
+		log.info("/on-search received request");
 		return null;
 	}
 

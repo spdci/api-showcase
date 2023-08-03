@@ -13,5 +13,4 @@ public class Credential {
 	private String errorInfo;
 	private Map tokenInfo;
 	private String spMisId;
-
 }
