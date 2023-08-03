@@ -1,8 +1,12 @@
 package org.spdci.common;
 
+
+import lombok.*;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +16,8 @@ import org.spdci.enums.CREventType;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CRRecord {
 
     private List<Identifier> identifier;
