@@ -1,5 +1,6 @@
 package org.spdci.common;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import org.spdci.enums.CREventType;
 
 @Getter
 @Setter
+@Builder
 public class CRRecord {
 
     private List<Identifier> identifier;

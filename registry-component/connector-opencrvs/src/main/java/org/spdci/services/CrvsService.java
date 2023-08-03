@@ -4,5 +4,5 @@ import org.spdci.common.Payload;
 import reactor.core.publisher.Mono;
 
 public interface CrvsService {
-	  Mono<Payload> proActiveSearch(Payload searchData) throws Exception;
+	  Mono<Payload> search(Payload searchData) throws Exception;
 }

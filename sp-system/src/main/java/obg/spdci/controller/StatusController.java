@@ -18,6 +18,7 @@ import reactor.core.publisher.Mono;
 public class StatusController {
 	@PostMapping(value = "/on-status", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Payload> onStatus(@RequestHeader Map<String, String> headers, @RequestBody String requestBody) {
+		log.info("/on-status received request");
 		return null;
 	}
 }
