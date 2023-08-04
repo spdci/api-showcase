@@ -43,7 +43,7 @@ public class CRVSRequestResponseAspect {
             try {
                 crvsRequestResponse.saveResponseData(Mono.just(resp.getPayload()));
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
             return Mono.just(resp);
         });
