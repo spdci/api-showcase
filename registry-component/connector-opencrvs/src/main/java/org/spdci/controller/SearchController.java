@@ -45,20 +45,20 @@ public class SearchController {
     public Mono<ResponseWrapper> searchCRVSData(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
             throws Exception {
         Payload payload = objectMapper.readValue(requestBody, Payload.class);
-        if (payload.getHeaders().getAsync() == true) {
+        if (payload.getHeaders().getAsync()) {
             template.convertAndSend(exchange, routingKey, payload);
             return Mono.just(new ResponseWrapper(AcknowledgementResponse.getAck()));
-        } else {
-            String identifierType = payload.getMessage().getSearchRequest().getData().get(0)
-                    .getSearchCriteria().getQuery().getIdentifier().get(0).getIdentifierType();
-            log.info("search_request_received ", requestBody);
-            log.info("search_request_received - identifierType : ", identifierType);
-            return crvsSearchService.search(payload)
-                    .flatMap(responsePayload -> {
-                        ResponseWrapper responseWrapper = new ResponseWrapper(responsePayload);
-                        return Mono.just(responseWrapper);
-                    });
         }
+        String identifierType = payload.getMessage().getSearchRequest().getData().get(0)
+                .getSearchCriteria().getQuery().getIdentifier().get(0).getIdentifierType();
+        log.info("search_request_received ", requestBody);
+        log.info("search_request_received - identifierType : ", identifierType);
+        return crvsSearchService.search(payload)
+                .flatMap(responsePayload -> {
+                    ResponseWrapper responseWrapper = new ResponseWrapper(responsePayload);
+                    return Mono.just(responseWrapper);
+                });
+
     }
 
 

@@ -8,12 +8,16 @@ import org.apache.hc.core5.http.HttpStatus;
 import org.spdci.common.Payload;
 import org.spdci.pojo.Request;
 import org.spdci.pojo.Response;
+import org.spdci.pojo.ResponseWrapper;
+import org.spdci.pojo.request.SubscribePayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
-@Service
+import java.util.UUID;
+
+@Service("req_res_impl")
 @Slf4j
 public class CrvsRequestResponseImpl implements CrvsRequestResponse {
 
@@ -48,7 +52,7 @@ public class CrvsRequestResponseImpl implements CrvsRequestResponse {
         crvsRequest.save(data);
     }
 
-    public void saveResponseData(Mono<Payload> payload) {
+    public void saveResponseData(Mono<ResponseWrapper> payload) {
 
         Response resData = new Response();
         payload.subscribe(
@@ -56,7 +60,7 @@ public class CrvsRequestResponseImpl implements CrvsRequestResponse {
                     String payloadData = jsonToString(payload1);
 
                     log.info("Payload Response: " + payloadData);
-                    resData.setTransactionId(payload1.getMessage().getTransactionId());
+                    resData.setTransactionId(payload1.getPayload().getMessage().getTransactionId());
                     resData.setResponsePayload(payloadData);
                     crvsResponse.save(resData);
                 },
@@ -76,4 +80,10 @@ public class CrvsRequestResponseImpl implements CrvsRequestResponse {
                 });
 
     }
+
+    @Override
+    public UUID saveSubscribeRequestData(SubscribePayload payload) throws Exception {
+        return null;
+    }
+
 }
