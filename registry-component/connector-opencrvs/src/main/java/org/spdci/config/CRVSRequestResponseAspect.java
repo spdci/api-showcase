@@ -10,6 +10,7 @@ import org.spdci.pojo.ResponseWrapper;
 import org.spdci.response.AcknowledgementResponse;
 import org.spdci.services.CrvsRequestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -22,6 +23,7 @@ public class CRVSRequestResponseAspect {
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
+    @Qualifier("req_res_impl")
     private CrvsRequestResponse crvsRequestResponse;
 
     @Pointcut("execution(* org.spdci.controller.SearchController.searchCRVSData(..)) || execution(* org.spdci.controller.StatusController.status(..)) || execution(* org.spdci.controller.SubscriptionController.subscribe(..)) || execution(* org.spdci.controller.SubscriptionController.unsubscribe(..)) ")
@@ -41,7 +43,7 @@ public class CRVSRequestResponseAspect {
         }
         return payloadData.flatMap(resp -> {
             try {
-                crvsRequestResponse.saveResponseData(Mono.just(resp.getPayload()));
+                crvsRequestResponse.saveResponseData(Mono.just(new ResponseWrapper(resp.getPayload())));
             } catch (Exception e) {
                 e.printStackTrace();
             }
