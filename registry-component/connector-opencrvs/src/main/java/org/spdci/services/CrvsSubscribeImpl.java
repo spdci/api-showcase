@@ -32,8 +32,9 @@ public class CrvsSubscribeImpl implements CrvsRequestResponse {
         Optional<SubscribeRequestPayload> id = subscribeRequest.findById(UUID.fromString(payload.getMessage().getTransactionId()));
         if (id.isPresent()) {
             req.setIsSubscribe(SubscribeStatus.ACTIVE);
+        } else {
+            req.setIsSubscribe(SubscribeStatus.INACTIVE);
         }
-        req.setIsSubscribe(SubscribeStatus.INACTIVE);
         req.setFrequency(payload.getMessage().getSubscribeRequest().getFrequency());
         subscribeRequest.save(req);
 
