@@ -1,6 +1,6 @@
 package org.spdci.services;
 
-import org.spdci.pojo.request.SubscribeRequestPayload;
+import org.spdci.pojo.SubscribeRequestPayload;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

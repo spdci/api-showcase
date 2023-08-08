@@ -1,4 +1,4 @@
-package org.spdci.pojo.enums;
+package org.spdci.pojo;
 
 public enum SubscribeStatus {
     ACTIVE,

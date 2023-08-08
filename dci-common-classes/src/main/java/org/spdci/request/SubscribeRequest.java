@@ -1,30 +1,27 @@
-package org.spdci.pojo.request;
+package org.spdci.request;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.spdci.enums.CREventType;
+import org.spdci.enums.Frequency;
 import org.spdci.enums.RegistryType;
-import org.spdci.pojo.enums.Frequency;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SubscribeRequest {
     private String referenceId;
-
     private LocalDateTime timestamp;
-
     private RegistryType registryType;
-
     private CREventType eventType;
-
     private Frequency frequency;
-
-    private String subscribeCriteria;
-
-    private List<String> filter = new ArrayList<>();
-
+    private SearchCriteria subscribeCriteria;
+    private List<String> filter;
     private String locale;
-
 }

@@ -31,24 +31,33 @@ public class CRVSRequestResponseAspect {
     }
 
     @Around("controllerPointCut()  && args(headers, requestBody)")
-    public Mono<ResponseWrapper> saveRequestDataAndProceed(ProceedingJoinPoint joinPoint,
-                                                           Map<String, String> headers,
-                                                           String requestBody) throws Throwable {
+    public Object saveRequestDataAndProceed(ProceedingJoinPoint joinPoint,
+                                            Map<String, String> headers,
+                                            String requestBody) throws Throwable {
         Payload payload = objectMapper.readValue(requestBody, Payload.class);
         crvsRequestResponse.saveRequestData(payload);
-        Mono<ResponseWrapper> payloadData = (Mono<ResponseWrapper>) joinPoint.proceed();
+        Object payloadData = joinPoint.proceed();
 
-        if (payload.getHeaders().getAsync() == true) {
-            return Mono.just(new ResponseWrapper(AcknowledgementResponse.getAck()));
+        if (payload.getHeaders().getAsync()) {
+            new ResponseWrapper(AcknowledgementResponse.getAck());
         }
-        return payloadData.flatMap(resp -> {
-            try {
-                crvsRequestResponse.saveResponseData(Mono.just(new ResponseWrapper(resp.getPayload())));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return Mono.just(resp);
-        });
+
+        String transactionId = payload.getMessage().getTransactionId();
+
+        if (payloadData instanceof Mono) {
+            Mono<?> monoPayload = (Mono<?>) payloadData;
+            return monoPayload.flatMap(resp -> {
+                try {
+                    crvsRequestResponse.saveResponseData(resp, transactionId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return Mono.just(resp);
+            });
+        } else {
+            crvsRequestResponse.saveResponseData(payloadData, transactionId);
+            return payloadData;
+        }
     }
 
 

@@ -4,17 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.core5.http.HttpStatus;
 import org.spdci.common.Payload;
 import org.spdci.pojo.Request;
 import org.spdci.pojo.Response;
-import org.spdci.pojo.ResponseWrapper;
-import org.spdci.pojo.request.SubscribePayload;
+import org.spdci.pojo.SubscribeStatus;
+import org.spdci.pojo.SubscribeRequestPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.core.publisher.Mono;
 
+import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service("req_res_impl")
@@ -22,8 +21,9 @@ import java.util.UUID;
 public class CrvsRequestResponseImpl implements CrvsRequestResponse {
 
     @Autowired
+    SubscribeRequest subscribeRequest;
+    @Autowired
     private CrvsRequest crvsRequest;
-
     @Autowired
     private CrvsResponse crvsResponse;
 
@@ -49,41 +49,41 @@ public class CrvsRequestResponseImpl implements CrvsRequestResponse {
         data.setReasonCode("");
         data.setErrorCode("");
         data.setErrorMessage("");
+        data.setCreatedDtm(new Date());
         crvsRequest.save(data);
     }
 
-    public void saveResponseData(Mono<ResponseWrapper> payload) {
+    public void saveResponseData(Object payload, String id) {
 
         Response resData = new Response();
-        payload.subscribe(
-                payload1 -> {
-                    String payloadData = jsonToString(payload1);
+        String payloadData = jsonToString(payload);
 
-                    log.info("Payload Response: " + payloadData);
-                    resData.setTransactionId(payload1.getPayload().getMessage().getTransactionId());
-                    resData.setResponsePayload(payloadData);
-                    crvsResponse.save(resData);
-                },
-                error -> {
-                    resData.setErrorCode("Error");
-                    resData.setErrorMessage(error.getMessage());
-
-                    if (error instanceof WebClientResponseException) {
-                        WebClientResponseException webClientError = (WebClientResponseException) error;
-                        resData.setErrorCode(webClientError.getStatusCode().toString());
-                    } else if (error instanceof IllegalArgumentException) {
-                        resData.setErrorCode(String.valueOf(HttpStatus.SC_BAD_REQUEST));
-                    } else {
-                        resData.setErrorCode(String.valueOf(HttpStatus.SC_SERVER_ERROR));
-                    }
-                    crvsResponse.save(resData);
-                });
+        log.info("Payload Response: " + payload);
+        resData.setTransactionId(id);
+        resData.setResponsePayload(payloadData);
+        resData.setCreatedDtm(new Date());
+        crvsResponse.save(resData);
 
     }
 
     @Override
-    public UUID saveSubscribeRequestData(SubscribePayload payload) throws Exception {
-        return null;
+    public UUID saveSubscribeRequestData(Payload payload) {
+        SubscribeRequestPayload req = new SubscribeRequestPayload();
+
+        req.setTransactionId(payload.getMessage().getTransactionId());
+        String query = jsonToString(payload);
+        req.setQuery(query);
+        req.setCreatedDtm(new Date());
+        Optional<SubscribeRequestPayload> id = subscribeRequest.findById(UUID.fromString(payload.getMessage().getTransactionId()));
+        if (id.isPresent()) {
+            req.setIsSubscribe(SubscribeStatus.ACTIVE);
+        } else {
+            req.setIsSubscribe(SubscribeStatus.INACTIVE);
+        }
+        req.setFrequency(payload.getMessage().getSubscribeRequest().getFrequency());
+        subscribeRequest.save(req);
+
+        return req.getSubscribeId();
     }
 
 }

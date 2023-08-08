@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +25,7 @@ public class Request {
     private String reasonCode;
     private String errorCode;
     private String errorMessage;
+    @Column(name = "created_dtm")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
+    private Date createdDtm;
 }
