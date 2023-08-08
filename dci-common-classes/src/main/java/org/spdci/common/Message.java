@@ -2,6 +2,7 @@ package org.spdci.common;
 
 
 import org.spdci.request.SearchRequest;
+import org.spdci.request.SubscribeRequest;
 import org.spdci.response.SearchResponse;
 
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class Message   {
     private SearchRequest searchRequest;
 
     private SearchResponse searchResponse;
+    private SubscribeRequest subscribeRequest;
 
     private EncryptedHeader encryptedHeader;
     private String data;

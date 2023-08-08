@@ -1,9 +1,8 @@
-package org.spdci.pojo.request;
+package org.spdci.pojo;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.spdci.pojo.enums.Frequency;
-import org.spdci.pojo.enums.SubscribeStatus;
+import org.spdci.enums.Frequency;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;

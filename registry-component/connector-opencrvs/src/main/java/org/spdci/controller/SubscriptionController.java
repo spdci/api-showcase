@@ -1,14 +1,11 @@
-
 package org.spdci.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.spdci.common.Payload;
-import org.spdci.pojo.request.SubscribePayload;
 import org.spdci.services.CrvsRequestResponse;
 import org.spdci.services.CrvsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,37 +21,36 @@ import java.util.UUID;
 @Slf4j
 public class SubscriptionController {
 
-	final String BAD_REQUEST = String.valueOf(HttpStatus.BAD_REQUEST.value());
-	final String INTERNAL_SERVER_ERROR = String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    final String BAD_REQUEST = String.valueOf(HttpStatus.BAD_REQUEST.value());
+    final String INTERNAL_SERVER_ERROR = String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
-	@Autowired
-	CrvsService crvsSearchService;
+    @Autowired
+    CrvsService crvsSearchService;
 
-	@Autowired
-	ObjectMapper objectMapper;
+    @Autowired
+    ObjectMapper objectMapper;
 
-	@Autowired
-	@Qualifier("subscribe_service")
-	CrvsRequestResponse requestResponse;
+    @Autowired
+    CrvsRequestResponse requestResponse;
 
-	@PostMapping(value = "/subscribe", produces = MediaType.APPLICATION_JSON_VALUE)
-	public UUID subscribe(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
-			throws Exception {
-		SubscribePayload payload = objectMapper.readValue(requestBody, SubscribePayload.class);
+    @PostMapping(value = "/subscribe", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UUID subscribe(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
+            throws Exception {
+        Payload payload = objectMapper.readValue(requestBody, Payload.class);
 
-		log.info("Subscribe request: "+payload);
-		UUID subId = requestResponse.saveSubscribeRequestData(payload);
-		return subId;
-	}
+        log.info("Subscribe request: " + payload);
+        UUID subId = requestResponse.saveSubscribeRequestData(payload);
+        return subId;
+    }
 
-	@PostMapping(value = "/unsubscribe", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Mono<Payload> unsubscribe(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
-			throws Exception {
-		SubscribePayload payload = objectMapper.readValue(requestBody, SubscribePayload.class);
+    @PostMapping(value = "/unsubscribe", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Payload> unsubscribe(@RequestHeader Map<String, String> headers, @RequestBody String requestBody)
+            throws Exception {
+        Payload payload = objectMapper.readValue(requestBody, Payload.class);
 
-		log.info("UnSubscribe request: "+payload);
-		requestResponse.saveSubscribeRequestData(payload);
-		return null;
-	}
+        log.info("UnSubscribe request: " + payload);
+        requestResponse.saveSubscribeRequestData(payload);
+        return null;
+    }
 
 }
