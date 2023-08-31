@@ -45,5 +45,75 @@ public class MarriageRegistry {
     @Column(name = "groom_national_id")
     private String groomNationalId;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public String getDateOfMarriage() {
+        return dateOfMarriage;
+    }
+
+    public void setDateOfMarriage(String dateOfMarriage) {
+        this.dateOfMarriage = dateOfMarriage;
+    }
+
+    public String getBrideFirstName() {
+        return brideFirstName;
+    }
+
+    public void setBrideFirstName(String brideFirstName) {
+        this.brideFirstName = brideFirstName;
+    }
+
+    public String getBrideFamilyName() {
+        return brideFamilyName;
+    }
+
+    public void setBrideFamilyName(String brideFamilyName) {
+        this.brideFamilyName = brideFamilyName;
+    }
+
+    public String getBrideNationalId() {
+        return brideNationalId;
+    }
+
+    public void setBrideNationalId(String brideNationalId) {
+        this.brideNationalId = brideNationalId;
+    }
+
+    public String getGroomFirstName() {
+        return groomFirstName;
+    }
+
+    public void setGroomFirstName(String groomFirstName) {
+        this.groomFirstName = groomFirstName;
+    }
+
+    public String getGroomFamilyName() {
+        return groomFamilyName;
+    }
+
+    public void setGroomFamilyName(String groomFamilyName) {
+        this.groomFamilyName = groomFamilyName;
+    }
+
+    public String getGroomNationalId() {
+        return groomNationalId;
+    }
+
+    public void setGroomNationalId(String groomNationalId) {
+        this.groomNationalId = groomNationalId;
+    }
 }

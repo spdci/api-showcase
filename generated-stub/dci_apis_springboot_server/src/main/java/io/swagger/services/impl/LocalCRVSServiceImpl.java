@@ -192,10 +192,10 @@ public class LocalCRVSServiceImpl implements LocalCRVSService {
 
             marriageRegistry = marriageRegRepository.findByBrideNationalId(dciIdentifierTypeValue.getIdentifierValue());
 
-            log.info(" marriageRegistry ", marriageRegistry.toString());
+          //  log.info(" marriageRegistry ", marriageRegistry.toString());
             if (marriageRegistry.getId() != null) {
                 marriageRegistry = marriageRegRepository.findByGroomNationalId(dciIdentifierTypeValue.getIdentifierValue());
-                log.info(" marriageRegistry findByGroomNationalId ", marriageRegistry.toString());
+             //x   log.info(" marriageRegistry findByGroomNationalId ", marriageRegistry.toString());
             }
         }
         dciPersonRecord.setIdentifierType(DciIdentifierType.DRN);

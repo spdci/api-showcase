@@ -3,12 +3,12 @@ version: "3.3"
 services:
  
   dci-apis-springboot-server:
-    image: openjdk:17
+    image: openjdk:11
     container_name: "dci-apis-springboot-server"
     ports:
       - 7115:7115
     volumes:
-      - "../dci_apis_springboot_server/target/dci_apis_springboot_server-1.0.0.jar:/usr/java_app/app.jar"
+      - "../dci_apis_springboot_server/target/swagger-spring-1.0.0.jar:/usr/java_app/app.jar"
     command: bash -c "java -Deureka.client.service-url.defaultZone=http://serviceregistry:8761/eureka/ -jar app.jar"
     working_dir: /usr/java_app
     networks:
