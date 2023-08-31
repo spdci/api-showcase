@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: crvs-registry
+  jackson:
+    default-property-inclusion: non-null
+server:
+  port: 10005

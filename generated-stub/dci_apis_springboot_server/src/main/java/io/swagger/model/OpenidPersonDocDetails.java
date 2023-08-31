@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "1. Person document detials as per OpenID [identity-assurance](https://openid.net/specs/openid-connect-4-identity-assurance-1_0-13.html#name-evidence-element) 2. JSON object representing the document used to perform the identity verification.  ")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 
 
 public class OpenidPersonDocDetails   {

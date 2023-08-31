@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "Describes an error object that is returned to standard post call request. <br> 1. This object shall be sent when any request received by a participant is not parsable or message integrity check fails. <br> 2. This object may be used across all transport protocols to acknowledge the receipt of a message i.e HTTPS, FTP, Messaging etc., <br>\" ")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 
 
 public class Error   {

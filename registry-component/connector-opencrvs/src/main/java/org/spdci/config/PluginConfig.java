@@ -3,6 +3,7 @@ package org.spdci.config;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -11,13 +12,13 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuil
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
 import org.apache.hc.client5.http.ssl.TrustAllStrategy;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -25,8 +26,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
+
 
 @Configuration
 public class PluginConfig {
@@ -51,28 +51,16 @@ public class PluginConfig {
 	}
 
 	@Bean
-	RestTemplate restTemplate() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
-		CloseableHttpClient httpClient = HttpClients.custom()
-				.setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create()
-						.setSSLSocketFactory(SSLConnectionSocketFactoryBuilder.create()
-								.setSslContext(
-										SSLContextBuilder.create().loadTrustMaterial(TrustAllStrategy.INSTANCE).build())
-								.setHostnameVerifier(NoopHostnameVerifier.INSTANCE).build())
-						.build())
-				.build();
-		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-		requestFactory.setHttpClient(httpClient);// this method is not accepting the CloseableHttpClient object
-		requestFactory.setConnectTimeout(30000);
-		requestFactory.setConnectionRequestTimeout(30000);
-		return new RestTemplate(requestFactory);
+	RestTemplate restTemplate1() {
+		RestTemplate restTemplate = new RestTemplate();
+		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_FORM_URLENCODED));
+		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
+		return restTemplate;
 	}
 
 	@Bean
-	IGenericClient iGenericClient() {
-		FhirContext fhirContext = FhirContext.forDstu3();
-		IGenericClient client = fhirContext.newRestfulGenericClient(crvsEndPoint);
-		// client.registerInterceptor(new DjInterceptor());
-
-		return client;
+	public WebClient.Builder getWebClientBuilder() {
+		return WebClient.builder();
 	}
 }

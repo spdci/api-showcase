@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "1. Person id is case insensitve normative represenation as id-type:id@provider <br> 2. This will enumerate foundational and functioanl id's to easily resolvable addressess <br> 3. This property is intended to unambiguously refer to an object, such as a person, beneficiary, user, etc., <br> 4. Few examples: <br>     - id@identifier-type.id-provider e.g token:12345@mosip, vid:543215@mosip <br>     - id@civil-registry.issuing-agency e.g id:12345@crvs, brn:12345@crvs, mrn:12345@crvs <br>     - id@functional-identifier.issuing-agency e.g id:12345@voter-id, id:12345@driving-license, mobile:12345@farmer-reg <br> Note: id provider should be made configurable and solutions should adapt to the local jurisdiction and policies. ")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 
 
 public class CdpiPersonId  implements CoreRegAllQueries {

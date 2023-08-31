@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "1. Attributes of a person to create fetch records, create verifiable credentials or use in search criteria. 2. Allowes Country/Registry specific implementation extensions using Attribute Name/Value pairs. 3. Person info as per OpenID [Claims](https://openid.net/specs/openid-connect-core-1_0.html#Claims) 4. Person additional info based on OpenID [name-additional-claims](https://openid.net/specs/openid-connect-4-identity-assurance-1_0-13.html#name-additional-claims-about-end) ")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 
 
 public class OpenidPersonRecord   {

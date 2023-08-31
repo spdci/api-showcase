@@ -10,18 +10,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message   {
     private String transactionId;
-    private SearchRequest searchRequest;
+    private List<SearchRequest> searchRequest;
 
     private SearchResponse searchResponse;
-    private SubscribeRequest subscribeRequest;
 
+    private SubscribeRequest subscribeRequest;
     private EncryptedHeader encryptedHeader;
+
     private String data;
     private String encryptedKey;
     private String authTag;

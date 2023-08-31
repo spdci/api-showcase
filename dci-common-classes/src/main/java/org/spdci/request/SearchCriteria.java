@@ -12,6 +12,8 @@ import org.spdci.common.CRRecord;
 public class SearchCriteria {
 
     CRRecord query;
-    List<CustomQuery> customQuery;
+
+
+    List<RecordType> record_type;
 
 }

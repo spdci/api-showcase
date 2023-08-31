@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "1. A sample related person into captured in civil registry 2, This is an indicative list as reference and every country, organisation, system shall customise to local requirements as extensions ")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 
 
 public class CivilRegRelatedPerson   {

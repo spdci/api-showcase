@@ -1,5 +1,6 @@
 package io.swagger.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.model.InlineResponse401;
 import io.swagger.model.InlineResponseDefault;
 import io.swagger.model.InlineResponseDefault1;
@@ -16,6 +17,7 @@ import io.swagger.model.TxnOnstatusBody;
 import io.swagger.model.TxnStatusBody;
 import io.swagger.model.TxnStatusBody2;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.services.LocalCRVSService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -27,6 +29,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,6 +58,9 @@ public class RegistryApiController implements RegistryApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+
+    @Autowired
+    LocalCRVSService localCRVSService;
 
     @org.springframework.beans.factory.annotation.Autowired
     public RegistryApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -104,25 +110,24 @@ public class RegistryApiController implements RegistryApi {
         return new ResponseEntity<InlineResponseDefault>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<InlineResponseDefault> postRegSearch(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody RegistrySearchBody body) {
+    public ResponseEntity<RegistryOnsearchBody> postRegSearch(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody RegistrySearchBody body) {
         String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+        if (accept != null) { // && accept.contains("application/json")
+
             try {
-                return new ResponseEntity<InlineResponseDefault>(objectMapper.readValue("{\n  \"message\" : {\n    \"error\" : {\n      \"code\" : \"err.request.bad\",\n      \"message\" : \"message\"\n    },\n    \"ack_status\" : \"ACK\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  }\n}", InlineResponseDefault.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<InlineResponseDefault>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<RegistryOnsearchBody>(localCRVSService.search(body),HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
             }
         }
-
-        return new ResponseEntity<InlineResponseDefault>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<RegistryOnsearchBody>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<InlineResponseDefault> postRegSubscribe(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody RegistrySubscribeBody body) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<InlineResponseDefault>(objectMapper.readValue("{\n  \"message\" : {\n    \"error\" : {\n      \"code\" : \"err.request.bad\",\n      \"message\" : \"message\"\n    },\n    \"ack_status\" : \"ACK\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  }\n}", InlineResponseDefault.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<InlineResponseDefault>(objectMapper.readValue("", InlineResponseDefault.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<InlineResponseDefault>(HttpStatus.INTERNAL_SERVER_ERROR);

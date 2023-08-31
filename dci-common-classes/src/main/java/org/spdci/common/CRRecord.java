@@ -21,6 +21,9 @@ import org.spdci.enums.CREventType;
 public class CRRecord {
 
     private List<Identifier> identifier;
+
+    private String status;
+
     private HumanName name;
     private List<CRRelatedPerson> relatedPerson;
     private List<String> phoneNumber;

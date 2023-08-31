@@ -13,13 +13,17 @@ public class Header {
     private String version;
     private String messageId;
     private String messageTs;
-    private String senderId;
-    private String receiverId;
     private String action;
+    private String senderId;
+    private String senderUri;
+    private String receiverId;
     private int totalCount;
-    private boolean isEncrypted;
-    private String encryptionAlgorithm;
-    private Boolean async;
-    private String callbackEndpoint;
+    private String encryptionAlgo;
+
+
+
+    private String status;
+    private String status_reason_code;
+    private String status_reason_message;
     private int CompletedCount;
 }

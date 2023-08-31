@@ -3,7 +3,6 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.model.TransactionId;
 import io.swagger.model.TxnStatusRequestDataTxnstatusRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
@@ -15,34 +14,33 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "Request to search identity service requests")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 
 
 public class TxnStatusRequestData   {
   @JsonProperty("transaction_id")
-  private TransactionId transactionId = null;
+  private String transactionId = null;
 
   @JsonProperty("txnstatus_request")
   private TxnStatusRequestDataTxnstatusRequest txnstatusRequest = null;
 
-  public TxnStatusRequestData transactionId(TransactionId transactionId) {
+  public TxnStatusRequestData transactionId(String transactionId) {
     this.transactionId = transactionId;
     return this;
   }
 
   /**
-   * Get transactionId
+   * Unique transaction_id set by txn initiating system (i.e sender) to co-relate requests across processing systems/service end points
    * @return transactionId
    **/
-  @Schema(required = true, description = "")
+  @Schema(example = "12345678901234567000", required = true, description = "Unique transaction_id set by txn initiating system (i.e sender) to co-relate requests across processing systems/service end points")
       @NotNull
 
-    @Valid
-  @Size(max=99)   public TransactionId getTransactionId() {
+  @Size(max=99)   public String getTransactionId() {
     return transactionId;
   }
 
-  public void setTransactionId(TransactionId transactionId) {
+  public void setTransactionId(String transactionId) {
     this.transactionId = transactionId;
   }
 

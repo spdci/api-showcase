@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Payload {
     private String signature;
-    private Header headers;
+    private Header header;
     private Message message;
 }

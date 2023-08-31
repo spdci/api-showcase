@@ -1,4 +1,4 @@
-package org.spdci.services;
+package org.spdci.services.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.Task;
+
 import org.spdci.common.*;
 import org.spdci.enums.*;
 import org.spdci.pojo.CrvsResponse;
@@ -18,6 +15,7 @@ import org.spdci.pojo.CrvsToken;
 import org.spdci.pojo.RequestResponse;
 import org.spdci.response.SearchResponse;
 import org.spdci.response.SearchResponseObject;
+import org.spdci.services.CrvsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +29,6 @@ import org.spdci.request.SearchCriteria;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -45,8 +42,7 @@ public class CrvsServiceImpl implements CrvsService {
 			+ "    \"client_secret\": \"c551302d-af94-40fe-a347-145f166559ce\"\n" + "}";
 	private final String graphqlurl = "https://gateway.farajaland-demo.opencrvs.org/graphql";
 
-	@Autowired
-	IGenericClient iGenericClient;
+
 
 	@Autowired
 	ObjectMapper objectMapper;
@@ -54,31 +50,7 @@ public class CrvsServiceImpl implements CrvsService {
 	@Autowired
 	RestTemplate restTemplate;
 
-	public String getContactNo(String brnDrn) {
 
-		try {
-			Bundle response = iGenericClient.search().forResource("Task").where(Task.IDENTIFIER.exactly().code(brnDrn))
-					.returnBundle(Bundle.class).execute();
-
-			List<BundleEntryComponent> dataFromCrvs = response.getEntry();
-
-			if (!CollectionUtils.isEmpty(dataFromCrvs)) {
-				for (BundleEntryComponent val : dataFromCrvs) {
-					Task task = (Task) val.getResource();
-					for (Extension ext : task.getExtension()) {
-
-						if (ext.getUrl().equalsIgnoreCase(contactUrl)) {
-							return ext.getValue().toString();
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-
-	}
 
 	public Mono<Payload> search(Payload payload) {
 

@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.model.SearchResponseDataSearchResponse;
-import io.swagger.model.TransactionId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,35 +16,34 @@ import javax.validation.constraints.*;
  */
 @Schema(description = "Response to search request. Multiple repsonses for each page can be pushed to the caller as an implementation!")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 
 
 public class SearchResponseData   {
   @JsonProperty("transaction_id")
-  private TransactionId transactionId = null;
+  private String transactionId = null;
 
   @JsonProperty("search_response")
   @Valid
   private List<SearchResponseDataSearchResponse> searchResponse = new ArrayList<SearchResponseDataSearchResponse>();
 
-  public SearchResponseData transactionId(TransactionId transactionId) {
+  public SearchResponseData transactionId(String transactionId) {
     this.transactionId = transactionId;
     return this;
   }
 
   /**
-   * Get transactionId
+   * Unique transaction_id set by txn initiating system (i.e sender) to co-relate requests across processing systems/service end points
    * @return transactionId
    **/
-  @Schema(required = true, description = "")
+  @Schema(example = "12345678901234567000", required = true, description = "Unique transaction_id set by txn initiating system (i.e sender) to co-relate requests across processing systems/service end points")
       @NotNull
 
-    @Valid
-  @Size(max=99)   public TransactionId getTransactionId() {
+  @Size(max=99)   public String getTransactionId() {
     return transactionId;
   }
 
-  public void setTransactionId(TransactionId transactionId) {
+  public void setTransactionId(String transactionId) {
     this.transactionId = transactionId;
   }
 

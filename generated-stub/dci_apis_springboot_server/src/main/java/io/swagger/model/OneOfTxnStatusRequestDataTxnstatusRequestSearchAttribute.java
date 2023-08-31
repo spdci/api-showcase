@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   include = JsonTypeInfo.As.PROPERTY,
   property = "type")
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = TransactionId.class, name = "TransactionId"),
   @JsonSubTypes.Type(value = ReferenceIdList.class, name = "ReferenceIdList")
 })
 public interface OneOfTxnStatusRequestDataTxnstatusRequestSearchAttribute {

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: dci_apis_springboot_server
+  jackson:
+    default-property-inclusion: non-null
+server:
+  port: 7115
+
+
+
+

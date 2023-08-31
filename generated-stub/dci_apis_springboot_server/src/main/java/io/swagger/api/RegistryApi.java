@@ -46,7 +46,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 @Validated
 public interface RegistryApi {
 
@@ -115,7 +115,7 @@ public interface RegistryApi {
         produces = { "application/json" }, 
         consumes = { "application/json", "multipart/form-data" }, 
         method = RequestMethod.POST)
-    ResponseEntity<InlineResponseDefault> postRegSearch(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody RegistrySearchBody body);
+    ResponseEntity<RegistryOnsearchBody> postRegSearch(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody RegistrySearchBody body);
 
 
     @Operation(summary = "/registry/subscribe", description = "Subscribe to a life event with registry", security = {

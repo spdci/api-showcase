@@ -9,6 +9,7 @@ import io.swagger.model.Pagination;
 import io.swagger.model.RequestStatus;
 import io.swagger.model.SearchStatusReasonCode;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -18,9 +19,9 @@ import javax.validation.constraints.*;
  * SearchResponseDataSearchResponse
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-24T11:13:24.172677407Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-08-28T12:47:18.932973955Z[GMT]")
 
-
+@Data
 public class SearchResponseDataSearchResponse   {
   @JsonProperty("reference_id")
   private String referenceId = null;
